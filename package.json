@@ -1,5 +1,5 @@
 {
-	"name": "ham-laundry-backend",
+	"name": "ham-events-backend",
 	"version": "1.0.0",
 	"main": "server.tsx",
 	"license": "MIT",
