@@ -4,6 +4,7 @@ const time = require("../util/time.ts");
 interface HamiltonEvent {
 	eventName: string;
 	eventDate: string;
+	eventTypeName: string;
 }
 
 const getRelevantEvents = async (apiToken: string) => {
@@ -23,8 +24,13 @@ const getRelevantEvents = async (apiToken: string) => {
 			for (var i in reservationList) {
 				let eventName: string = reservationList[i]["event"]["event_name"];
 				let eventDate: string = reservationList[i]["post_event_dt"];
+				let eventTypeName: string = reservationList[i]["event"]["event_type_name"];
 
-				let newEvent: HamiltonEvent = { eventName: eventName, eventDate: eventDate };
+				console.log(eventName);
+				console.log(reservationList[i]["event"]["custom_attribute"]);
+
+				// Make task to parse food status at event.
+				let newEvent: HamiltonEvent = { eventName: eventName, eventDate: eventDate, eventTypeName: eventTypeName };
 				console.log(newEvent);
 			}
 		});
