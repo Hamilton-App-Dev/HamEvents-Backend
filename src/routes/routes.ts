@@ -1,5 +1,7 @@
-const eventsRouter = require("./events.ts");
+import events from "./events";
 
-module.exports = function (app: any) {
-    app.get("/events", eventsRouter.helloWorldRoute);
-};
+function routes(app: any) {
+    app.get("/events", events);
+}
+
+export default routes;

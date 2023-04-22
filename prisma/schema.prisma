@@ -10,13 +10,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users {
-  id          String @id @default(uuid())
-  name        String @db.VarChar(255)
-  email       String @unique @db.VarChar(255)
-  profile_img String
-  // roles       String? // make a relationship  @relation(fields: [userId], references: [id])
-}
+// model Users {
+//   id          String @id @default(uuid())
+//   name        String @db.VarChar(255)
+//   email       String @unique @db.VarChar(255)
+//   profile_img String
+//   // roles       String? // make a relationship  @relation(fields: [userId], references: [id])
+// }
 
 model Events {
   id                   String   @id @default(uuid())
