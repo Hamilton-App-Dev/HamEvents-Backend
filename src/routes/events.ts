@@ -24,10 +24,10 @@ const testObj = {
 
 const syncData = () => {};
 
-const helloWorldRoute = (res: any) => {
+const helloWorldRoute = (res: any, req: any) => {
     res.json({
         msg: "world",
     });
 };
 
-module.exports = { helloWorldRoute };
+export default helloWorldRoute;
