@@ -1,5 +1,3 @@
-import type { Events } from "@prisma/client";
-
 /**
 Task: Sync database whenever user refreshes and on page open
 
@@ -24,7 +22,7 @@ const testObj = {
 
 const syncData = () => {};
 
-const helloWorldRoute = (res: any, req: any) => {
+const helloWorldRoute = (req: any, res: any) => {
     res.json({
         msg: "world",
     });
