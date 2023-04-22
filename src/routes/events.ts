@@ -1,5 +1,3 @@
-import type { Events } from "@prisma/client";
-
 /**
 Task: Sync database whenever user refreshes and on page open
 
@@ -11,23 +9,23 @@ On the server, we will initialize a variable lastSyncTime. When the route is hit
  */
 
 const testObj = {
-    id: "f2236ece-e14a-11ed-b5ea-0242ac120002",
-    name: "Daren Hua",
-    description: "",
-    cover_img: "",
-    event_time_start: new Date("2023-04-20T14:30:00"),
-    event_time_end: new Date("2023-04-20T16:30:00"),
-    location: "Goodfriend Field, Map #40",
-    food: true,
-    cancelled: false,
+	id: "f2236ece-e14a-11ed-b5ea-0242ac120002",
+	name: "Daren Hua",
+	description: "",
+	cover_img: "",
+	event_time_start: new Date("2023-04-20T14:30:00"),
+	event_time_end: new Date("2023-04-20T16:30:00"),
+	location: "Goodfriend Field, Map #40",
+	food: true,
+	cancelled: false,
 };
 
 const syncData = () => {};
 
-const helloWorldRoute = (res: any) => {
-    res.json({
-        msg: "world",
-    });
+const helloWorldRoute = (req: any, res: any) => {
+	res.json({
+		msg: "world",
+	});
 };
 
 module.exports = { helloWorldRoute };
