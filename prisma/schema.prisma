@@ -37,6 +37,6 @@ model Clubs {
   name        String @db.VarChar(255)
   profile_img String
   // upcoming_events 
-  // past_events
+  // past_eventsgr
   // members
 }
