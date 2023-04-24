@@ -1,5 +1,5 @@
-import { PrismaClient } from "@prisma/client";
 import type { Events } from "@prisma/client";
+import prisma from "../prismaClient";
 
 import eventsApi from "../25live/event";
 
@@ -27,7 +27,7 @@ const testObj = {
 	cancelled: false,
 };
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
 
 let globalTimer = new Date();
 
