@@ -8,6 +8,7 @@ dotenv.config();
 app.use(cors());
 
 routes(app);
+const port = 3000;
 // app.get("/", function (req: any, res: any) {
 //     res.json({ msg: "Ham Events App" });
 // });
@@ -15,6 +16,8 @@ routes(app);
 
 // api.getRelevantEvents(process.env.API_TOKEN);
 
-app.listen(3000, () => console.log("Server Listening"));
+app.listen(port, () =>
+    console.log(`🎉 Server listening at http://localhost:${port}/ 🎉`)
+);
 
 // testdasdsadsdadsadadsadasds
