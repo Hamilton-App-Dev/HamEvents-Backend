@@ -17,7 +17,7 @@ On the server, we will initialize a variable lastSyncTime. When the route is hit
 
 const testObj = {
     id: "f2236ece-e14a-11ed-b5ea-0242ac120002",
-    name: "Daren Hua",
+    name: "Rugby Club Game",
     description: "",
     cover_img: "",
     event_time_start: new Date("2023-04-20T14:30:00"),
