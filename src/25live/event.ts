@@ -1,5 +1,5 @@
 require("dotenv").config();
-const time = require("../util/time.ts");
+import getCurrentDate from "../util/time";
 
 // Pius and Jun: Task is to make this interface more fleshed out, work will be here and in the function.
 interface HamiltonEvent {
@@ -51,7 +51,7 @@ function normalize25Live(eventObj: any): HamiltonEvent {
 }
 
 const getRelevantEvents = async (apiToken: string) => {
-    let currentDate: string = time.getCurrentDate();
+    let currentDate: string = getCurrentDate();
     let server: string = `https://apim.workato.com/hamiltonbi/25live-v1/student-events-for-app-api?start_dt=${currentDate}&end_dt=20240501&modified_since=20220101T00:00:00`;
     let eventsList: HamiltonEvent[] = [];
 
