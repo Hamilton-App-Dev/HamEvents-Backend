@@ -1,0 +1,17 @@
+version: 0.0
+os: linux
+files:
+ - source: .
+   destination: /home/ubuntu/HamEvents-Backend
+   overwrite: true
+file_exists_behavior: OVERWRITE
+
+hooks:
+  AfterInstall:
+   - location: scripts/install_app_dependencies
+     timeout: 300
+     runas: root
+  ApplicationStart:
+   - location: scripts/start_server
+     timeout: 300
+     runas: root

@@ -1,0 +1,4 @@
+#!/bin/bash
+cd /home/ubuntu/HamEvents-Backend
+npm install
+npm run build
