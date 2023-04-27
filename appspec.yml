@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
  - source: .
-   destination: /home/ec2-user/app
+   destination: /home/ubuntu/HamEvents-Backend
 hooks:
   AfterInstall:
    - location: scripts/install_app_dependencies
