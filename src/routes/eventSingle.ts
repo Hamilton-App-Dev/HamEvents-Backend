@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
+import type { Events } from "@prisma/client";
 import prisma from "../util/prismaClient";
 
 async function getEventSingle(req: Request, res: Response) {
     try {
         const eventId = String(req.params.id);
-        const event = await prisma.events.findUnique({
+        const event: Events | null = await prisma.events.findUnique({
             where: {
                 id: eventId,
             },

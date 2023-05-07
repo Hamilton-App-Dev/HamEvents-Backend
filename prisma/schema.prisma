@@ -19,17 +19,21 @@ datasource db {
 // }
 
 model Events {
-  id                   String   @id @default(uuid())
-  name                 String   @db.VarChar(255)
-  description          String?
-  cover_img            String
+  id                  String   @id @default(uuid())
+  ref_id              String   @unique
+  name                String   @db.VarChar(255)
+  description         String?
+  cover_img           String
   // clubs                Int    @unique //relationship
-  event_time_start     DateTime
-  event_time_end       DateTime
-  location             String   @db.VarChar(255)
+  event_time_start    DateTime
+  event_time_end      DateTime
+  event_post_date     DateTime
+  event_last_modified DateTime
+
+  location             String
   estimated_attendance Int
-  food                 Boolean  @default(false)
-  cancelled            Boolean  @default(false)
+  food                 Boolean @default(false)
+  cancelled            Boolean @default(false)
 }
 
 model Clubs {

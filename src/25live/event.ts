@@ -1,30 +1,42 @@
-require("dotenv").config();
+import type { Events } from "@prisma/client";
+
+import dotenv from "dotenv";
+dotenv.config();
+
 import getCurrentDate from "../util/time";
+import { DateDimensionField } from "aws-sdk/clients/quicksight";
 
 // Pius and Jun: Task is to make this interface more fleshed out, work will be here and in the function.
-interface HamiltonEvent {
-    eventName: string;
-    eventPostDate: string;
-    eventLastModDate: string;
-    eventTypeName: string; // Check this to make sure its right.
-    eventId: string;
-    eventStart: string;
-    eventEnd: string;
-    eventSpace: string;
-    eventFoodStatus: boolean;
-}
+
+// 5/7/23 : no longer using this type definition. Sticking to Prisma Event object to have one source of truth for type.
+
+// interface HamiltonEvent {
+//     eventName: string; ✅
+//     eventPostDate: string; ✅
+//     eventLastModDate: string;✅
+//     eventTypeName: string;
+//     eventId: string;✅
+//     eventStart: string; ✅
+//     eventEnd: string; ✅
+//     eventSpace: string;✅
+//     eventFoodStatus: boolean; ✅
+// }
+type IncompleteEvent = Omit<
+    Events,
+    "id" | "description" | "cover_img" | "cancelled"
+>;
 
 //event->cover_attribute->
-function normalize25Live(eventObj: any): HamiltonEvent {
+function normalize25Live(eventObj: any): IncompleteEvent {
     let eventName: string = eventObj["event"]["event_name"];
 
-    let eventPostDate: string = eventObj["post_event_dt"]; //I don't know why we'd need this but this was already
-    //here
-    let eventLastModDate: string = eventObj["last_mod_dt"];
-    let eventTypeName: string = eventObj["event"]["event_type_name"];
-    let eventId = eventObj["reservation_id"];
-    let eventStart: string = eventObj["event_start_dt"];
-    let eventEnd: string = eventObj["event_end_dt"];
+    let eventPostDate: Date = eventObj["post_event_dt"];
+    let eventLastModDate: Date = eventObj["last_mod_dt"];
+    let eventId: string = eventObj["reservation_id"];
+    let eventStart: Date = eventObj["event_start_dt"];
+    let eventEnd: Date = eventObj["event_end_dt"];
+    // event attendance is an optional field
+    let eventAttendance: number = Number(eventObj["expected_count"]) || 0;
     let eventSpace: string =
         eventObj["space_reservation"]["space"]["formal_name"];
     let customAttribute: any = eventObj["event"]["custom_attribute"];
@@ -36,24 +48,26 @@ function normalize25Live(eventObj: any): HamiltonEvent {
             }
         }
     }
-    let newEvent: HamiltonEvent = {
-        eventName: eventName,
-        eventPostDate: eventPostDate,
-        eventLastModDate: eventLastModDate,
-        eventTypeName: eventTypeName,
-        eventId: eventId,
-        eventStart: eventStart,
-        eventEnd: eventEnd,
-        eventSpace: eventSpace,
-        eventFoodStatus: eventFoodStatus,
+
+    let newEvent: IncompleteEvent = {
+        ref_id: eventId,
+        name: eventName,
+        event_time_start: eventStart,
+        event_time_end: eventEnd,
+        event_post_date: eventPostDate,
+        event_last_modified: eventLastModDate,
+        estimated_attendance: eventAttendance,
+        location: eventSpace,
+        food: eventFoodStatus,
     };
+
     return newEvent;
 }
 
 const getRelevantEvents = async (apiToken: string) => {
     let currentDate: string = getCurrentDate();
     let server: string = `https://apim.workato.com/hamiltonbi/25live-v1/student-events-for-app-api?start_dt=${currentDate}&end_dt=20240501&modified_since=20220101T00:00:00`;
-    let eventsList: HamiltonEvent[] = [];
+    let eventsList: IncompleteEvent[] = [];
 
     try {
         const res = await fetch(server, {
@@ -79,4 +93,4 @@ const getRelevantEvents = async (apiToken: string) => {
     }
 };
 
-export default getRelevantEvents;
+export { getRelevantEvents, IncompleteEvent };

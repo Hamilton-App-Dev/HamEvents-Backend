@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Events" ALTER COLUMN "ref_id" SET DATA TYPE TEXT;

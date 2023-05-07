@@ -4,10 +4,14 @@
 	"main": "server.tsx",
 	"license": "MIT",
 	"dependencies": {
+		"@aws-sdk/client-s3": "^3.328.0",
 		"@prisma/client": "^4.13.0",
+		"aws-sdk": "^2.1373.0",
 		"cors": "^2.8.5",
 		"dotenv": "^16.0.3",
 		"express": "^4.18.2",
+		"multer": "^1.4.5-lts.1",
+		"multer-s3": "^3.0.1",
 		"node-fetch": "2.6.1",
 		"nodemon": "^2.0.21"
 	},
@@ -15,11 +19,12 @@
 		"start": "ts-node --esm server.ts",
 		"serve": "nodemon --esm server.ts",
 		"build": "rimraf ./build && tsc"
-
 	},
 	"devDependencies": {
 		"@types/cors": "^2.8.13",
 		"@types/express": "^4.17.17",
+		"@types/multer": "^1.4.7",
+		"@types/multer-s3": "^3.0.0",
 		"@types/node": "^18.15.13",
 		"@types/node-fetch": "^2.6.3",
 		"prisma": "^4.13.0",
