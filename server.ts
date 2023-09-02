@@ -2,9 +2,9 @@ import express from "express";
 import cors from "cors";
 import routes from "./src/routes/routes";
 import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
-dotenv.config();
 app.use(cors());
 
 routes(app);
@@ -20,4 +20,3 @@ app.listen(port, () =>
     console.log(`🎉 Server listening at http://localhost:${port}/ 🎉`)
 );
 
-// testdasdsadsdadsadadsadasds
