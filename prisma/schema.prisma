@@ -22,6 +22,7 @@ model Events {
   id                  String   @id @default(uuid())
   ref_id              String   @unique
   name                String   @db.VarChar(255)
+  organization        String   @default("")
   description         String?
   cover_img           String
   // clubs                Int    @unique //relationship
@@ -29,7 +30,6 @@ model Events {
   event_time_end      DateTime
   event_post_date     DateTime
   event_last_modified DateTime
-  organization       String
 
   location             String
   estimated_attendance Int
