@@ -22,6 +22,7 @@ model Events {
   id                  String   @id @default(uuid())
   ref_id              String   @unique
   name                String   @db.VarChar(255)
+  organization        String   @default("")
   description         String?
   cover_img           String
   // clubs                Int    @unique //relationship
@@ -36,11 +37,3 @@ model Events {
   cancelled            Boolean @default(false)
 }
 
-model Clubs {
-  id          String @id @default(uuid())
-  name        String @db.VarChar(255)
-  profile_img String
-  // upcoming_events 
-  // past_eventsgr
-  // members
-}

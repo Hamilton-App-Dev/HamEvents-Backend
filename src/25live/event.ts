@@ -6,62 +6,50 @@ dotenv.config();
 import getCurrentDate from "../util/time";
 import { DateDimensionField } from "aws-sdk/clients/quicksight";
 
-// Pius and Jun: Task is to make this interface more fleshed out, work will be here and in the function.
-
-// 5/7/23 : no longer using this type definition. Sticking to Prisma Event object to have one source of truth for type.
-
-// interface HamiltonEvent {
-//     eventName: string; ✅
-//     eventPostDate: string; ✅
-//     eventLastModDate: string;✅
-//     eventTypeName: string;
-//     eventId: string;✅
-//     eventStart: string; ✅
-//     eventEnd: string; ✅
-//     eventSpace: string;✅
-//     eventFoodStatus: boolean; ✅
-// }
 type IncompleteEvent = Omit<
   Events,
   "id" | "description" | "cover_img" | "cancelled"
 >;
 
-//event->cover_attribute->
 function normalize25Live(eventObj: any): IncompleteEvent {
-  let eventName: string = eventObj["event"]["event_name"];
+	let eventName: string = eventObj["event"]["event_name"];
 
-  let eventPostDate: Date = eventObj["post_event_dt"];
-  let eventLastModDate: Date = eventObj["last_mod_dt"];
-  let eventId: string = eventObj["reservation_id"];
-  let eventStart: Date = eventObj["event_start_dt"];
-  let eventEnd: Date = eventObj["event_end_dt"];
-  // event attendance is an optional field
-  let eventAttendance: number = Number(eventObj["expected_count"]) || 0;
-  let eventSpace: string =
-    eventObj["space_reservation"]["space"]["formal_name"];
-  let customAttribute: any = eventObj["event"]["custom_attribute"];
-  let eventFoodStatus: boolean = false;
-  for (let item of customAttribute) {
-    if (item["attribute_id"] == 100) {
-      if (item["attribute_value"] == "T") {
-        eventFoodStatus = true;
-      }
-    }
-  }
+	let eventPostDate: Date = eventObj["post_event_dt"];
+	let eventLastModDate: Date = eventObj["last_mod_dt"];
+	let eventId: string = eventObj["reservation_id"];
+	let eventStart: Date = eventObj["event_start_dt"];
+	let eventEnd: Date = eventObj["event_end_dt"];
+	let organization: string =
+		eventObj["event"]["organization"]["organization_name"];
+	// event attendance is an optional field
+	let eventAttendance: number = Number(eventObj["expected_count"]) || 0;
+	let eventSpace: string =
+		eventObj["space_reservation"]["space"]["formal_name"];
+	let customAttribute: any = eventObj["event"]["custom_attribute"];
+	let eventFoodStatus: boolean = false;
+	for (let item of customAttribute) {
+		if (item["attribute_id"] == 100) {
+			if (item["attribute_value"] == "T") {
+				eventFoodStatus = true;
+			}
+		}
+	}
+	// console.log("ORGANIZATION: ", organization);
 
-  let newEvent: IncompleteEvent = {
-    ref_id: eventId,
-    name: eventName,
-    event_time_start: eventStart,
-    event_time_end: eventEnd,
-    event_post_date: eventPostDate,
-    event_last_modified: eventLastModDate,
-    estimated_attendance: eventAttendance,
-    location: eventSpace,
-    food: eventFoodStatus,
-  };
+	let newEvent: IncompleteEvent = {
+		ref_id: eventId,
+		name: eventName,
+		organization: organization,
+		event_time_start: eventStart,
+		event_time_end: eventEnd,
+		event_post_date: eventPostDate,
+		event_last_modified: eventLastModDate,
+		estimated_attendance: eventAttendance,
+		location: eventSpace,
+		food: eventFoodStatus,
+	};
 
-  return newEvent;
+	return newEvent;
 }
 
 const getRelevantEvents = async (apiToken: string) => {
