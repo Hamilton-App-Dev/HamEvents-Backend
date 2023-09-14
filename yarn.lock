@@ -1091,6 +1091,13 @@
     "@types/node" "*"
     form-data "^3.0.0"
 
+"@types/@^2.1.0":
+  "integrity" "sha512-NiTwl8YN3v/1YCKrDFSmCTkVxFDylueEqsOFdgF+vPsm+AlyJKGAo5yzX1FiOxPsZiN6/r8gJitYx2EaSuBmmg=="
+  "resolved" "https://registry.npmjs.org/@types/node-schedule/-/node-schedule-2.1.0.tgz"
+  "version" "2.1.0"
+  dependencies:
+    "@types/node" "*"
+
 "@types/node@*", "@types/node@^18.15.13":
   version "18.15.13"
   resolved "https://registry.npmjs.org/@types/node/-/node-18.15.13.tgz"

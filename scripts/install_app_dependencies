@@ -1,5 +1,4 @@
 #!/bin/bash
-cd /home/ubuntu/HamEvents-Backend
 npm install
 npx prisma migrate deploy 
 npm run build

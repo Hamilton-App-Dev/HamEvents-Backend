@@ -1,32 +1,16 @@
 import type { Events } from "@prisma/client";
-
+import fetch from "node-fetch";
 import dotenv from "dotenv";
 dotenv.config();
 
 import getCurrentDate from "../util/time";
 import { DateDimensionField } from "aws-sdk/clients/quicksight";
 
-// Pius and Jun: Task is to make this interface more fleshed out, work will be here and in the function.
-
-// 5/7/23 : no longer using this type definition. Sticking to Prisma Event object to have one source of truth for type.
-
-// interface HamiltonEvent {
-//     eventName: string; ✅
-//     eventPostDate: string; ✅
-//     eventLastModDate: string;✅
-//     eventTypeName: string;
-//     eventId: string;✅
-//     eventStart: string; ✅
-//     eventEnd: string; ✅
-//     eventSpace: string;✅
-//     eventFoodStatus: boolean; ✅
-// }
 type IncompleteEvent = Omit<
-	Events,
-	"id" | "description" | "cover_img" | "cancelled"
+  Events,
+  "id" | "description" | "cover_img" | "cancelled"
 >;
 
-//event->cover_attribute->
 function normalize25Live(eventObj: any): IncompleteEvent {
 	let eventName: string = eventObj["event"]["event_name"];
 
@@ -69,32 +53,32 @@ function normalize25Live(eventObj: any): IncompleteEvent {
 }
 
 const getRelevantEvents = async (apiToken: string) => {
-	let currentDate: string = getCurrentDate();
-	let server: string = `https://apim.workato.com/hamiltonbi/25live-v1/student-events-for-app-api?start_dt=${currentDate}&end_dt=20240501&modified_since=20220101T00:00:00`;
-	let eventsList: IncompleteEvent[] = [];
+  let currentDate: string = getCurrentDate();
+  let server: string = `https://apim.workato.com/hamiltonbi/25live-v1/student-events-for-app-api?start_dt=${currentDate}&end_dt=20240501&modified_since=20220101T00:00:00`;
+  let eventsList: IncompleteEvent[] = [];
 
-	try {
-		const res = await fetch(server, {
-			method: "GET",
-			headers: {
-				"API-TOKEN": apiToken,
-			},
-		});
+  try {
+    const res = await fetch(server, {
+      method: "GET",
+      headers: {
+        "API-TOKEN": apiToken,
+      },
+    });
 
-		const json = await res.json();
+    const json = await res.json();
+    console.log(json);
+    let reservationList = json["reservations"]["reservation"];
+    for (let eventObj of reservationList) {
+      const newEvent = normalize25Live(eventObj);
+      console.log(newEvent);
+      eventsList.push(newEvent);
+    }
 
-		let reservationList = json["reservations"]["reservation"];
-		for (let eventObj of reservationList) {
-			const newEvent = normalize25Live(eventObj);
-			console.log(newEvent);
-			eventsList.push(newEvent);
-		}
-
-		return eventsList;
-	} catch (error) {
-		console.log(error);
-		return eventsList;
-	}
+    return eventsList;
+  } catch (error) {
+    console.log(error);
+    return eventsList;
+  }
 };
 
 export { getRelevantEvents, IncompleteEvent };
