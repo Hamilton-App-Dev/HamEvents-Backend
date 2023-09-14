@@ -28,8 +28,8 @@
 		"@types/multer-s3": "^3.0.0",
 		"@types/node": "^18.15.13",
 		"@types/node-fetch": "^2.6.3",
-		"prisma": "^5.0.0",
 		"@types/node-schedule": "^2.1.0",
+		"prisma": "^4.13.0",
 		"rimraf": "^5.0.0",
 		"ts-node": "^10.9.1",
 		"typescript": "^5.0.3"
