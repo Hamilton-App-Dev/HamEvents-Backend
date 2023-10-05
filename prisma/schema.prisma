@@ -35,5 +35,5 @@ model Events {
   estimated_attendance Int
   food                 Boolean @default(false)
   cancelled            Boolean @default(false)
+  modified             Boolean @default(false)
 }
-
