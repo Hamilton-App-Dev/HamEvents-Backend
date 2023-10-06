@@ -47,6 +47,7 @@ function normalize25Live(eventObj: any): IncompleteEvent {
         estimated_attendance: eventAttendance,
         location: eventSpace,
         food: eventFoodStatus,
+        modified: false,
     };
 
     return newEvent;
