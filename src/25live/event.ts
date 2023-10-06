@@ -70,7 +70,6 @@ const getRelevantEvents = async (apiToken: string) => {
         let reservationList = json["reservations"]["reservation"];
         for (let eventObj of reservationList) {
             const newEvent = normalize25Live(eventObj);
-            console.log(newEvent);
             eventsList.push(newEvent);
         }
 
