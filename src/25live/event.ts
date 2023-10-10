@@ -32,6 +32,7 @@ function normalize25Live(eventObj: any): IncompleteEvent {
             if (item["attribute_value"] == "T") {
                 eventFoodStatus = true;
             }
+            break;
         }
     }
     // console.log("ORGANIZATION: ", organization);
@@ -95,6 +96,17 @@ const getRelevantEvents = async (apiToken: string) => {
         for (let eventObj of reservationList) {
             const newEvent = normalize25Live(eventObj);
             eventsList.push(newEvent);
+            for (let item of eventObj["event"]["custom_attribute"]) {
+                // 49 is id for invite only
+                if (item["attribute_id"] == 49) {
+                    if (item["attribute_value"] == "F") {
+                        const newEvent = normalize25Live(eventObj);
+                        eventsList.push(newEvent);
+                        // console.log(eventObj["event"]["custom_attribute"]);
+                    }
+                    break;
+                }
+            }
         }
         eventsList = removeDuplicates(eventsList);
         return eventsList;
