@@ -54,6 +54,29 @@ function normalize25Live(eventObj: any): IncompleteEvent {
   return newEvent;
 }
 
+const removeDuplicates = (eventsList: IncompleteEvent[]) => {
+    const occurrences: { [key: string]: IncompleteEvent[] } = {};
+
+    // Hashmap of occurrences by organization and post date
+    eventsList.forEach((eventObj) => {
+        const key = `${eventObj.organization}-${eventObj.event_post_date}`;
+        if (!occurrences[key]) {
+            occurrences[key] = [];
+        }
+        occurrences[key].push(eventObj);
+    });
+
+    // From each group, select the one with the latest modified date
+    const uniqueEvents: IncompleteEvent[] = Object.values(occurrences).map(
+        (group) => {
+            return group.sort((a, b) =>
+                b.event_last_modified > a.event_last_modified ? 1 : -1
+            )[0];
+        }
+    );
+    return uniqueEvents;
+};
+
 const getRelevantEvents = async (apiToken: string) => {
   let currentDate: string = getCurrentDate();
   let server: string = `https://apim.workato.com/hamiltonbi/25live-v1/student-events-for-app-api?start_dt=${currentDate}&end_dt=20240501&modified_since=20220101T00:00:00`;
@@ -83,14 +106,13 @@ const getRelevantEvents = async (apiToken: string) => {
           }
           break;
         }
-      }
+        eventsList = removeDuplicates(eventsList);
+        return eventsList;
+    } catch (error) {
+        console.log(error);
+        return eventsList;
     }
 
-    return eventsList;
-  } catch (error) {
-    console.log(error);
-    return eventsList;
-  }
 };
 
 export { getRelevantEvents, IncompleteEvent };
