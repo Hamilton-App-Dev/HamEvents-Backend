@@ -94,8 +94,6 @@ const getRelevantEvents = async (apiToken: string) => {
         // console.log(json);
         let reservationList = json["reservations"]["reservation"];
         for (let eventObj of reservationList) {
-            const newEvent = normalize25Live(eventObj);
-            eventsList.push(newEvent);
             for (let item of eventObj["event"]["custom_attribute"]) {
                 // 49 is id for invite only
                 if (item["attribute_id"] == 49) {
