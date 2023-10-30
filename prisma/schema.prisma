@@ -10,13 +10,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model Users {
-//   id          String @id @default(uuid())
-//   name        String @db.VarChar(255)
-//   email       String @unique @db.VarChar(255)
-//   profile_img String
-//   // roles       String? // make a relationship  @relation(fields: [userId], references: [id])
-// }
+model User {
+  id          String @id @default(uuid())
+  name        String @db.VarChar(255)
+  email       String @unique @db.VarChar(255)
+  user_id     String @unique
+  profile_img String
+  rsvps       RSVP[]
+  role        Role   @default(USER)
+}
+
+enum Role {
+  USER
+  ADMIN
+}
 
 model Events {
   id                  String   @id @default(uuid())
@@ -36,4 +43,23 @@ model Events {
   food                 Boolean @default(false)
   cancelled            Boolean @default(false)
   modified             Boolean @default(false)
+
+  rsvps RSVP[]
+}
+
+model RSVP {
+  id                String   @id @default(uuid())
+  user              User     @relation(fields: [user_id], references: [id])
+  user_id           String   @unique
+  notification_time DateTime
+
+  event    Events @relation(fields: [event_id], references: [id])
+  event_id String @unique
+
+  status Status @default(PENDING)
+}
+
+enum Status {
+  PENDING
+  NOTIFIED
 }
