@@ -10,14 +10,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id          String @id @default(uuid())
-  name        String @db.VarChar(255)
-  email       String @unique @db.VarChar(255)
-  user_id     String @unique
+model Users {
+  id          String  @id @default(uuid())
+  name        String  @db.VarChar(255)
+  email       String  @unique @db.VarChar(255)
+  user_id     String  @unique
   profile_img String
-  rsvps       RSVP[]
-  role        Role   @default(USER)
+  rsvps       RSVPs[]
+  role        Role    @default(USER)
 }
 
 enum Role {
@@ -44,19 +44,18 @@ model Events {
   cancelled            Boolean @default(false)
   modified             Boolean @default(false)
 
-  rsvps RSVP[]
+  rsvps RSVPs[]
 }
 
-model RSVP {
+model RSVPs {
   id                String   @id @default(uuid())
-  user              User     @relation(fields: [user_id], references: [id])
+  user              Users    @relation(fields: [user_id], references: [id])
   user_id           String   @unique
   notification_time DateTime
 
   event    Events @relation(fields: [event_id], references: [id])
   event_id String @unique
-
-  status Status @default(PENDING)
+  status   Status @default(PENDING)
 }
 
 enum Status {
