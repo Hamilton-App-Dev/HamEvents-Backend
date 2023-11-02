@@ -2,6 +2,7 @@ import events from "./events";
 import eventSingle from "./eventSingle";
 import { Request, Response } from "express";
 import getRSVPs from "../util/getRSVPs";
+import postRSVP from "../util/postRSVP";
 
 function routes(app: any) {
 	app.get("/events/:id", eventSingle);
@@ -15,6 +16,8 @@ function routes(app: any) {
 		const rsvps = await getRSVPs(id);
 		res.status(200).json(rsvps);
 	});
+
+	app.post("/users/:userId/rsvps/:eventId", postRSVP);
 }
 
 export default routes;
