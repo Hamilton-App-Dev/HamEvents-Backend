@@ -7,6 +7,7 @@ import nodeSchedule from "node-schedule";
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
 routes(app);
 const port = 3000;
