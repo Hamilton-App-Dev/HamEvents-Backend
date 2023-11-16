@@ -19,23 +19,33 @@ async function postRSVP(req: Request, res: Response) {
 		return;
 	}
 
-	const rsvp: RSVPs | null = await prisma.rSVPs.create({
-		data: {
-			...rsvpData,
-			user: {
-				connect: {
-					id: user_id,
-				},
-			},
-			event: {
-				connect: {
-					id: event_id,
-				},
-			},
+	const existingRSVP = await prisma.rSVPs.findFirst({
+		where: {
+			user_id: user_id,
+			event_id: event_id,
 		},
 	});
 
-	res.status(201).json(rsvp);
+	if (!existingRSVP) {
+		const rsvp: RSVPs | null = await prisma.rSVPs.create({
+			data: {
+				...rsvpData,
+				user: {
+					connect: {
+						id: user_id,
+					},
+				},
+				event: {
+					connect: {
+						id: event_id,
+					},
+				},
+			},
+		});
+		res.status(201).json(rsvp);
+	} else {
+		res.status(400).send("RSVP already exists");
+	}
 }
 
 export default postRSVP;

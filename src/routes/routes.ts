@@ -1,8 +1,8 @@
 import events from "./events";
 import eventSingle from "./eventSingle";
-import { Request, Response } from "express";
 import getRSVPs from "../util/getRSVPs";
 import postRSVP from "../util/postRSVP";
+import deleteRSVP from "../util/deleteRSVP";
 
 function routes(app: any) {
 	app.get("/events/:id", eventSingle);
@@ -11,13 +11,10 @@ function routes(app: any) {
 		res.json({ msg: "Ham Events App" });
 	});
 
-	app.get("/users/:id/rsvps", async (req: Request, res: Response) => {
-		const { id } = req.params;
-		const rsvps = await getRSVPs(id);
-		res.status(200).json(rsvps);
-	});
+	app.get("/users/:id/rsvps", getRSVPs);
 
 	app.post("/users/:userId/rsvps/:eventId", postRSVP);
+	app.delete("/rsvps/delete/:id", deleteRSVP);
 }
 
 export default routes;
