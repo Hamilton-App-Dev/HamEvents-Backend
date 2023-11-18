@@ -50,11 +50,11 @@ model Events {
 model RSVPs {
   id                String   @id @default(uuid())
   user              Users    @relation(fields: [user_id], references: [id])
-  user_id           String   @unique
+  user_id           String   
   notification_time DateTime
 
   event    Events @relation(fields: [event_id], references: [id])
-  event_id String @unique
+  event_id String 
   status   Status @default(PENDING)
 }
 
